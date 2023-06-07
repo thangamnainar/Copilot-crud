@@ -35,14 +35,14 @@ var App = /** @class */ (function () {
         this.express.use(cors());
         this._db = new Database();
         this.express.get('/users', function (req, res) { return _this.getUsers(req, res); });
-        this.express.post('/addUsers', function (req, res) { return _this.addUser(req, res); });
         this.express.get('/getById/:id', function (req, res) { return _this.getById(req, res); });
-        this.express.put('/updateUser/:id', function (req, res) { return _this.updateUser(req, res); });
-        this.express.put('/deleteUser/:id', function (req, res) { return _this.deleteUser(req, res); });
+        this.express.post('/addUsers', function (req, res) { return _this.addUser(req, res); });
+        this.express.put('/updateUser', function (req, res) { return _this.updateUser(req, res); });
+        this.express.put('/deleteUser', function (req, res) { return _this.deleteUser(req, res); });
         this.listen();
     }
     App.prototype.getUsers = function (req, res) {
-        this._db.connection.query('SELECT name,age,gender,skills FROM student_details where isActive = 0', function (err, result) {
+        this._db.connection.query('SELECT id,name,age,gender,skills FROM student_details where isActive = 0', function (err, result) {
             if (err) {
                 console.log(err);
             }
@@ -58,7 +58,7 @@ var App = /** @class */ (function () {
     };
     App.prototype.getById = function (req, res) {
         var id = req.params.id;
-        this._db.connection.query('SELECT name,age,gender,skills FROM student_details WHERE id = ?', id, function (err, result) {
+        this._db.connection.query('SELECT * FROM student_details WHERE id = ?', id, function (err, result) {
             if (err) {
                 console.log(err);
             }
@@ -85,9 +85,8 @@ var App = /** @class */ (function () {
         });
     };
     App.prototype.updateUser = function (req, res) {
-        var id = req.params.id;
-        var updateData = req.body;
-        this._db.connection.query('UPDATE student_details SET ? WHERE id = ?', [updateData, id], function (err, result) {
+        var _a = req.body, id = _a.id, name = _a.name, age = _a.age, gender = _a.gender;
+        this._db.connection.query('UPDATE student_details SET name = ?, age = ?, gender = ? WHERE id = ?', [name, age, gender, id], function (err, result) {
             if (err) {
                 console.log(err);
             }
@@ -97,7 +96,7 @@ var App = /** @class */ (function () {
         });
     };
     App.prototype.deleteUser = function (req, res) {
-        var id = req.params.id;
+        var id = req.body.id;
         this._db.connection.query('UPDATE student_details SET isActive = 1 WHERE id = ?', id, function (err, result) {
             if (err) {
                 console.log(err);

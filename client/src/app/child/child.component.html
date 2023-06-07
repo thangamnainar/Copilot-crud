@@ -1,0 +1,52 @@
+<div class="form-filed">
+    <form action="" class="form-tag" #myForm="ngForm">
+        <div class="form-group">
+            <label for="">Name :</label>
+            <input type="text" name="name" placeholder="Enter Name" [(ngModel)]="name">
+        </div>
+        <div class="form-group">
+            <label for="">Age :</label>
+            <input type="number" name="age" placeholder="Enter age" [(ngModel)]="age">
+        </div>
+        <div class="form-group">
+            <label feditor="">Gender :</label>
+            <label>
+                <input type="radio" name="gender" value="male" [(ngModel)]="gender"> Male
+            </label>
+            <label>
+                <input type="radio" name="gender" value="female" [(ngModel)]="gender"> Female
+            </label>
+            <label>
+                <input type="radio" name="gender" value="other" [(ngModel)]="gender"> Other
+            </label>
+        </div>
+        <!-- <form [formGroup]="formGroup">
+            <div class="form-group">
+                <label for="skill1">Python</label>
+                <input type="checkbox" id="skill1" formControlName="skill1">
+            </div>
+
+            <div class="form-group">
+                <label for="skill2">Java</label>
+                <input type="checkbox" id="skill2" formControlName="skill2">
+            </div>
+
+            <div class="form-group">
+                <label for="skill3">JS</label>
+                <input type="checkbox" id="skill3" formControlName="skill3">
+            </div>
+        </form> -->
+        <div class="form-group">
+            <div *ngIf="!boolen; else elseBlock">
+                <button id="btn" type="submit" (click)="Create(myForm.value)">Create</button>
+            </div>
+            <ng-template #elseBlock>
+                <button id="btn" type="submit" (click)="update()">Update</button>
+            </ng-template>
+        </div>
+    </form>
+    <!-- {{myForm.value | json}} -->
+    <!-- {{selectedSkills|json}} -->
+    <!-- <button (click)="getSelectedSkills()">Get Selected Skills</button> -->
+</div>
+<!-- <button (click)="table()">table</button> -->

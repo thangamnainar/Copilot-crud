@@ -1,0 +1,26 @@
+<div class="box">
+    <table>
+        <thead>
+            <tr>
+                <!-- <th>Id</th> -->
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Skills</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of getData">
+                <!-- <td>{{user.id}}</td> -->
+                <td>{{user.name}}</td>
+                <td>{{user.age}}</td>
+                <td>{{user.gender}}</td>
+                <td>{{user.skills}}</td>
+                <td><button (click)="edit(user.id)">Edit</button> <button (click)="delete(user.id)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+<!-- {{getData |json}} -->
+
+</div>  

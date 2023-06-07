@@ -33,14 +33,14 @@ class App {
         this.express.use(cors());
         this._db = new Database();
         this.express.get('/users', (req: Request, res: Response) => this.getUsers(req, res));
-        this.express.post('/addUsers', (req: Request, res: Response) => this.addUser(req, res));
         this.express.get('/getById/:id', (req: Request, res: Response) => this.getById(req, res));
-        this.express.put('/updateUser/:id', (req: Request, res: Response) => this.updateUser(req, res));
-        this.express.put('/deleteUser/:id', (req: Request, res: Response) => this.deleteUser(req, res));
+        this.express.post('/addUsers', (req: Request, res: Response) => this.addUser(req, res));
+        this.express.put('/updateUser', (req: Request, res: Response) => this.updateUser(req, res));
+        this.express.put('/deleteUser', (req: Request, res: Response) => this.deleteUser(req, res));
         this.listen();
     }
     private getUsers(req: Request, res: Response) {
-        this._db.connection.query('SELECT name,age,gender,skills FROM student_details where isActive = 0', (err, result) => {
+        this._db.connection.query('SELECT id,name,age,gender,skills FROM student_details where isActive = 0', (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -54,7 +54,7 @@ class App {
     }
     private getById(req: Request, res: Response) {
         let id = req.params.id;
-        this._db.connection.query('SELECT name,age,gender,skills FROM student_details WHERE id = ?', id, (err, result) => {
+        this._db.connection.query('SELECT * FROM student_details WHERE id = ?', id, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -79,9 +79,8 @@ class App {
         });
     }
     private updateUser(req: Request, res: Response) {
-        let id = req.params.id;
-        let updateData = req.body;
-        this._db.connection.query('UPDATE student_details SET ? WHERE id = ?', [updateData, id], (err, result) => {
+        let {id,name,age,gender} = req.body;
+        this._db.connection.query('UPDATE student_details SET name = ?, age = ?, gender = ? WHERE id = ?', [name,age,gender, id], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -90,12 +89,13 @@ class App {
         });
     }
     private deleteUser(req: Request, res: Response) {
-        let id = req.params.id;
+        let id = req.body.id;
         this._db.connection.query('UPDATE student_details SET isActive = 1 WHERE id = ?', id, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
                 res.json({ message: "User Deleted Successfully" });
+
             }
         });
     }
