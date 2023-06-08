@@ -1,5 +1,5 @@
 import { Component ,OnInit} from '@angular/core';
-import { ServiceService } from '../service.service';
+import { ServiceService,GetDataResponse } from '../service.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-parent',
@@ -10,7 +10,7 @@ export class ParentComponent implements OnInit{
   public getData:any;
   constructor(private service:ServiceService,private route:Router) { }
   ngOnInit(): void {
-    this.service.getdata().subscribe((res)=>{
+    this.service.getdata<GetDataResponse>().subscribe((res:GetDataResponse[])=>{
       this.getData=res;
     })
   }

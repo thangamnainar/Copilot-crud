@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,27 +8,40 @@ import { HttpClient } from '@angular/common/http';
 export class ServiceService {
 
   constructor(private http:HttpClient) { };
-  getdata(){
-    let url="http://localhost:3000/users";
-    return this.http.get(url);
+  getdata<T>(): Observable<T[]> {
+    let url = "http://localhost:3000/users";
+    return this.http.get<T[]>(url);
   }
-  getdataById(id:any){
+  
+  getdataById(id:string|null){
     let url="http://localhost:3000/getById/"+id;
     return this.http.get(url);
   }
-  postdata(data:any){
+  postdata<G>(data:G):Observable<G[]>{
     let url="http://localhost:3000/addUsers";
-    return this.http.post(url,data);
+    return this.http.post<G[]>(url,data);
   }
-  delete(id:any){
+  delete(id:number){
     let url="http://localhost:3000/deleteUser/";
     let Id = {id:id};
     console.log('sssssssss',Id);    
-    return this.http.put  (url,Id);
+    return this.http.put(url,Id);
   }
-  update(updateData:any){
+  update<T>(updateData:T):Observable<T[]>{
     let url="http://localhost:3000/updateUser/";
     console.log('sssssssss',updateData);    
-    return this.http.put  (url,updateData);
+    return this.http.put<T[]>(url,updateData);
   }
+}
+
+export interface GetDataResponse {
+  id: number,
+  name: string,
+  age: number,
+  gender: string,
+}
+export interface PostDataResponse {
+  name: string,
+  age: number,
+  gender: string,
 }
