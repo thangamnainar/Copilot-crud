@@ -8,11 +8,11 @@ class Database {
     private _connection: mysql.Connection;
     constructor() {
         this._connection = mysql.createConnection({
-            host: 'localhost',
+            host: 'YOUR_HOST',
             port: 3306,
-            user: 'thangam',
-            password: 'Thasan24',
-            database: 'test'
+            user: 'YOUR_USER',
+            password: 'YOUR_PASSWORD',
+            database: 'YOUR_DATABASE'
         });
         this._connection.connect((err) => {
             if (err) throw err;
